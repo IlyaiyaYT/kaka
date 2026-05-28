@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WikiVerse — Современная База Знаний</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="splash-screen" class="splash-screen">
+        <div class="splash-content">
+            <div class="splash-logo">
+                <i class="fa-solid :fa-circle-nodes"></i>
+                <span>Wiki<span>Verse</span></span>
+            </div>
+            <div class="loader"></div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <div class="app-container hidden">
+        
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fa-solid fa-circle-nodes"></i>
+                    <span>Wiki<span>Verse</span></span>
+                </div>
+            </div>
+
+            <div class="profile-widget" id="profile-widget">
+                </div>
+
+            <nav class="sidebar-menu">
+                <button class="menu-item active" data-filter="all">
+                    <i class="fa-solid fa-border-all"></i> <span>Все материалы</span>
+                </button>
+                <button class="menu-item" data-filter="article">
+                    <i class="fa-solid fa-book"></i> <span>Статьи</span>
+                </button>
+                <button class="menu-item" data-filter="plugin">
+                    <i class="fa-solid fa-puzzle-piece"></i> <span>Плагины</span>
+                </button>
+                <button class="menu-item auth-required hidden" data-filter="my">
+                    <i class="fa-solid fa-bookmark"></i> <span>Мои публикации</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button id="btn-create-content" class="btn btn-primary auth-required hidden">
+                    <i class="fa-solid fa-plus"></i> <span>Создать</span>
+                </button>
+                <button id="btn-auth-trigger" class="btn btn-secondary">
+                    <i class="fa-solid fa-right-to-bracket"></i> <span>Войти</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="search-input" placeholder="Поиск по названию, описанию или тегам...">
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                <div id="cards-grid" class="cards-grid">
+                    </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="auth-modal" class="modal">
+        <div class="modal-content glass">
+            <span class="close-modal" id="close-auth">&times;</span>
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tab-login">Вход</button>
+                <button class="auth-tab" id="tab-register">Регистрация</button>
+            </div>
+            
+            <form id="form-login" class="auth-form">
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="login-username" placeholder="Имя пользователя" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="login-password" placeholder="Пароль" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Войти в систему</button>
+            </form>
+
+            <form id="form-register" class="auth-form hidden">
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="reg-username" placeholder="Придумайте никнейм" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="reg-password" placeholder="Надежный пароль" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Создать аккаунт</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="editor-modal" class="modal">
+        <div class="modal-content glass modal-large">
+            <span class="close-modal" id="close-editor">&times;</span>
+            <h2 id="editor-title" class="modal-heading">Создать публикацию</h2>
+            
+            <form id="form-editor">
+                <input type="hidden" id="edit-id">
+                
+                <div class="input-group">
+                    <i class="fa-solid fa-heading"></i>
+                    <input type="text" id="content-title" placeholder="Название статьи или плагина" required>
+                </div>
+
+                <div class="custom-dropdown" id="content-type-dropdown">
+                    <div class="dropdown-selected" data-value="article">
+                        <i class="fa-solid fa-book"></i> <span>Статья</span> <i class="fa-solid fa-chevron-down arrow"></i>
+                    </div>
+                    <div class="dropdown-options">
+                        <div class="dropdown-option selected" data-value="article">
+                            <i class="fa-solid fa-book"></i> Статья
+                        </div>
+                        <div class="dropdown-option" data-value="plugin">
+                            <i class="fa-solid fa-puzzle-piece"></i> Плагин
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-quote-left"></i>
+                    <input type="text" id="content-short" placeholder="Краткое описание (для карточки)" required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-tags"></i>
+                    <input type="text" id="content-tags" placeholder="Теги (через запятую: java, pvp, гайд)">
+                </div>
+
+                <div class="textarea-group">
+                    <textarea id="content-body" placeholder="Полный текст публикации (поддерживает перенос строк)..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block" id="btn-editor-submit">Опубликовать</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="viewer-modal" class="modal viewer-modal">
+        <div class="viewer-container glass">
+            <header class="viewer-header">
+                <div class="viewer-meta">
+                    <span id="view-type" class="badge"></span>
+                    <h1 id="view-title"></h1>
+                    <div class="view-author-date">
+                        <span><i class="fa-solid fa-user"></i> <span id="view-author"></span></span>
+                        <span><i class="fa-solid fa-calendar-days"></i> <span id="view-date"></span></span>
+                    </div>
+                </div>
+                <button class="close-viewer" id="close-viewer"><i class="fa-solid fa-xmark"></i></button>
+            </header>
+            <div class="viewer-body">
+                <div id="view-tags" class="tags-container"></div>
+                <hr class="viewer-divider">
+                <div id="view-content" class="viewer-text"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
